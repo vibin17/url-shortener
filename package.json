@@ -1,7 +1,6 @@
 {
   "name": "url-shortener",
   "version": "0.1.0",
-  "homepage": "https://vibin17.github.io/url-shortener",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
