@@ -1,7 +1,5 @@
 import { Formik } from "formik"
-import { useContext, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { AuthContext } from "../../context/auth-context"
+import { useState } from "react"
 import ApiService from "../../services/api-service"
 import { StyledForm, FormHeader, FormMain, FormField, FormFooter, FormMessage, FormButton, FormInputBlock, FormInputError } from "./AuthPagesStyle"
 import * as Yup from 'yup'
@@ -15,10 +13,8 @@ const SignUpValidationSchema = Yup.object().shape({
 })
 
 const SignUpPage = () => {
-    let context = useContext(AuthContext)
     let [created, setCreated] = useState(false)
     let [error, setError] = useState('')
-    let navigate = useNavigate()
     return (
         <Formik
             initialValues={{

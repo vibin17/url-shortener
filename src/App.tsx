@@ -19,7 +19,7 @@ const StyledApp = styled.div`
 `
 
 const Main = styled.main`
-  padding: 80px 0 120px 0;
+  padding: 30px 0;
   flex: 1 0;
   height: 100%;
   display: flex;

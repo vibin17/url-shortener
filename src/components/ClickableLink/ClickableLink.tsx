@@ -23,6 +23,7 @@ const ClickableLink = ({ link, fontSize = 14, short = false }: props) => {
     (
         <StyledLink 
             fontSize={fontSize}
+            title={'Нажмите, чтобы скопировать'}
             short={true}
             onClick={(event) => { 
                 event.preventDefault()

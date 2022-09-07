@@ -1,7 +1,6 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import { AuthContext } from "../../context/auth-context"
 import { Formik } from "formik"
-import * as Yup from 'yup'
 import { FormButton, FormHeader, FormMain, FormField, StyledForm, FormFooter, FormMessage } from "./AuthPagesStyle"
 import ApiService from "../../services/api-service"
 import { useNavigate } from "react-router-dom"

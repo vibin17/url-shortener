@@ -1,7 +1,7 @@
 import { Formik } from "formik";
 import { useContext, useEffect, useRef, useState } from "react"
 import ClickableLink from "../../components/ClickableLink/ClickableLink";
-import StatTable from "../../components/StatTable/StatTable";
+import StatTable, { sortModes } from "../../components/StatTable/StatTable";
 import { AuthContext } from "../../context/auth-context"
 import { LinkResponse } from "../../models/models";
 import ApiService from "../../services/api-service";
@@ -15,6 +15,7 @@ const HomePage = () => {
     let [linksData, setLinksData] = useState<LinkResponse[]>([])
     let [fetching, setFetching] = useState(false)
     let [page, setPage] = useState(1)
+    let [sortMode, setSortMode] = useState<sortModes>(sortModes.DESC_COUNTER)
     let allLinksCovered = useRef(false)
     const itemsOnPage = 8
     const scrollHandler = ({ target }: Event) => {
@@ -40,7 +41,7 @@ const HomePage = () => {
             if (fetching) {
                 try {
                     const response = await ApiService.GetStatistics({
-                        order: 'desc_counter',
+                        order: sortMode,
                         limit: itemsOnPage,
                         offset: (page - 1) * itemsOnPage
                     })
@@ -116,7 +117,10 @@ const HomePage = () => {
                         Статистика по созданным ссылкам
                     </SectionHeader>
                     <SectionMain>
-                        <StatTable links={linksData}/>
+                        <StatTable 
+                            links={linksData}
+                            sortMode={sortMode}
+                            setSortMode={setSortMode}/>
                     </SectionMain>
                 </Section>
             </>}

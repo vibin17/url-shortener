@@ -1,6 +1,5 @@
 import { useContext } from "react"
 import { AuthContext, defaultContextValue } from "../../context/auth-context"
-import ApiService from "../../services/api-service"
 import { Container } from "../../styles/container"
 import { StyledHeader, LinkButton, Logo, TextBlock, Button } from "./HeaderStyle"
 

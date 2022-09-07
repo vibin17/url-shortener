@@ -3,7 +3,7 @@ import styled, { css } from "styled-components"
 import shared from "../../styles/shared"
 
 export const StyledHeader = styled.header`
-    height: 120px;
+    padding: 40px 0;
     display: flex;
     justify-content: center;
     align-items: center ;

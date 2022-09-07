@@ -1,4 +1,6 @@
-import styled from "styled-components";
+import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
+import styled, { css } from "styled-components";
+import shared from "../../styles/shared";
 
 export const Table = styled.div`
     width: 100%;
@@ -7,7 +9,7 @@ export const Table = styled.div`
 export const Row = styled.div`
     width: 100%;
     display: grid;
-    grid: none / 30% 55% 15%;
+    grid: none / 30% 52% 18%;
 `
 
 export const Cell = styled.div<{ align?: string }>`
@@ -23,6 +25,38 @@ export const Cell = styled.div<{ align?: string }>`
 `
 
 export const ColumnHead = styled(Cell)`
+    ${shared.transition200ms}
     justify-content: center;
+    gap: 5px;
+    font-size: 16px;
+    cursor: default;
+    &:hover {
+        color: rgba(0, 0, 0, 0.7)
+    }
+`
+
+export const SortSymbol = styled.div`
+    ${shared.transition200ms}
+    ${shared.hoverInvert}
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`
+
+const Arrow = css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-size: 16px;
 `
+
+export const ArrowDesc = styled(AiOutlineArrowDown)`
+    ${Arrow}
+`
+
+export const ArrowAsc = styled(AiOutlineArrowUp)`
+    ${Arrow}
+`
+
+//ARROWS REVERSED 

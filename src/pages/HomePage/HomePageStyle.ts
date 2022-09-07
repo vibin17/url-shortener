@@ -17,9 +17,9 @@ export const Home = styled.div`
 export const Section = styled.section`
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 20px;
     width: 100%;
-    padding: 30px 20px;
+    padding: 20px 20px;
     background: rgb(255, 255, 255);
     border: solid 1px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
