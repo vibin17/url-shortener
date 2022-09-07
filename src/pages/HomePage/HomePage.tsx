@@ -1,26 +1,64 @@
-import { Formik, FormikHelpers, FormikValues } from "formik";
-import { useContext, useEffect, useState } from "react"
+import { Formik } from "formik";
+import { useContext, useEffect, useRef, useState } from "react"
+import ClickableLink from "../../components/ClickableLink/ClickableLink";
 import StatTable from "../../components/StatTable/StatTable";
 import { AuthContext } from "../../context/auth-context"
-import { API_URL } from "../../http";
 import { LinkResponse } from "../../models/models";
 import ApiService from "../../services/api-service";
-import { FormMessage, Home, FormMain, FormField, StyledForm, Section, SectionHeader, SectionMain, FormButton, ShortLink } from "./HomePageStyle";
+import { FormMessage, Home, FormMain, FormField, StyledForm, Section, SectionHeader, SectionMain, FormButton } from "./HomePageStyle";
+
 
 const HomePage = () => {
     let context = useContext(AuthContext)
-    let [shortLink, setShortLink] = useState('')
-    let [linkCopied, setLinkCopied] = useState(false)
+    let [shortenedLink, setShortenedLink] = useState('')
     let [error, setError] = useState('')
-    let [stats, setStats] = useState<LinkResponse[]>([])
+    let [linksData, setLinksData] = useState<LinkResponse[]>([])
+    let [fetching, setFetching] = useState(false)
+    let [page, setPage] = useState(1)
+    let allLinksCovered = useRef(false)
+    const itemsOnPage = 8
+    const scrollHandler = ({ target }: Event) => {
+        let elem = (target as Document).documentElement
+        let checkScroll = elem.scrollHeight - (elem.scrollTop + window.innerHeight);
+        if (checkScroll < 100 && !allLinksCovered.current) {
+            setFetching(true)
+        }
+    }
     useEffect(() => {
         (async () => {
             if (context?.value.isSignedIn) {
-                const response = await ApiService.Statistics()
-                setStats(response.data)
+                document.addEventListener('scroll', scrollHandler)
+                setFetching(true)
             }
         })()
-    }, [context?.value])
+        return () => {
+            document.removeEventListener('scroll', scrollHandler)
+        }
+    }, [context?.value.isSignedIn])
+    useEffect(() => {
+        (async () => {
+            if (fetching) {
+                try {
+                    const response = await ApiService.GetStatistics({
+                        order: 'desc_counter',
+                        limit: itemsOnPage,
+                        offset: (page - 1) * itemsOnPage
+                    })
+                    console.log(response)
+                    console.log(response.data.length)
+                    setLinksData([...linksData, ...response.data])
+                    setPage(page + 1)
+                    if (response.data.length < itemsOnPage) {
+                        allLinksCovered.current = true
+                    }
+                } catch (exception) {
+                    console.log(exception)
+                } finally {
+                    setFetching(false)
+                }
+            }
+        })()
+    }, [fetching])
     return (
         <Home>
             {!context?.value.isSignedIn?
@@ -39,15 +77,13 @@ const HomePage = () => {
                             onSubmit={async ({url: link}) => {
                                 try {
                                     const result = await ApiService.Squeeze({link})
-                                    setShortLink(result.data.short)
+                                    setShortenedLink(result.data.short)
                                     setError('')
-                                    setLinkCopied(false)
                                     console.log(result)
                                 }
                                 catch (exception) {
-                                    setShortLink('')
+                                    setShortenedLink('')
                                     setError('Неверный формат ссылки')
-                                    setLinkCopied(false)
                                     console.log(exception)
                                 }
                             }}
@@ -63,23 +99,10 @@ const HomePage = () => {
                                         Сократить URL
                                     </FormButton>
                                 </FormMain>
-                                {shortLink && <FormMessage> 
+                                {shortenedLink && <FormMessage> 
                                     Ваша ссылка: 
                                     <br/>
-                                    <ShortLink href={`${API_URL}/s/${shortLink}`}
-                                        onClick={(event) => {
-                                            event.preventDefault()
-                                            navigator.clipboard.writeText((event.target as HTMLAnchorElement).getAttribute('href') || '').then(() => {
-                                                setLinkCopied(true)
-                                            }, () => {
-                                                setLinkCopied(false)
-                                            })
-                                        }}>
-                                        {`${API_URL}/s/${shortLink}`}
-                                    </ShortLink>
-                                    {linkCopied && <>
-                                        Ссылка скопирована!
-                                    </>}
+                                    <ClickableLink link={shortenedLink} short fontSize={20}/>
                                 </FormMessage>}
                                 {error && <FormMessage error={true}> 
                                     {error}
@@ -93,7 +116,7 @@ const HomePage = () => {
                         Статистика по созданным ссылкам
                     </SectionHeader>
                     <SectionMain>
-                        <StatTable links={stats}/>
+                        <StatTable links={linksData}/>
                     </SectionMain>
                 </Section>
             </>}

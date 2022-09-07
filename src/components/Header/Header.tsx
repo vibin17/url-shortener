@@ -35,6 +35,8 @@ const Header = () => {
                     <Button onClick={() => {
                         context?.setValue(defaultContextValue)
                         localStorage.removeItem('access_token')
+                        localStorage.removeItem('username')
+                        localStorage.removeItem('password')
                         window.location.reload()
                     }}>
                         Выйти

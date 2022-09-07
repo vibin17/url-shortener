@@ -13,7 +13,7 @@ const shared = {
     `,
     hoverInvert: css`
         &:hover {
-            filter: invert(20%);
+            filter: invert(30%);
         }
     `,
     disabled: css`

@@ -32,10 +32,14 @@ export const SectionHeader = styled.div`
 `
 
 export const SectionMain = styled.div`
-
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
 `
 
 export const StyledForm = styled(Form)`
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 30px;
@@ -59,13 +63,19 @@ export const FormField = styled(Field)`
     }
 `
 
-export const FormButton = styled.button`
-    width: 20%;
+export const Button = styled.button`
+    font: normal 16px 'Rubik';
+    align-self: flex-end;
+    padding: 10px;
+    color: rgba(0, 0, 0);
     ${shared.plainButton}
     ${shared.transition200ms}
     ${shared.hoverInvert}
-    padding: 10px;
-    font: normal 16px 'Rubik';
+`
+
+export const FormButton = styled(Button)`
+    align-self: auto;
+    width: 20%;
     color: rgb(255, 255, 255);
     background: rgb(102, 140, 211);
 `
@@ -80,14 +90,4 @@ export const FormMessage = styled.div<{error?: boolean}>`
         `rgb(0, 0, 0)`
         :
         `rgb(252, 73, 73)`};
-`
-
-export const ShortLink = styled.a`
-    font-size: 20px;
-    color: rgb(102, 140, 211);
-    text-decoration: none;
-
-    &:hover {
-        text-decoration: underline;
-    }
 `

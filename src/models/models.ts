@@ -3,6 +3,12 @@ export type UserData = {
     readonly password: string
 }
 
+export type StatisticsParams = {
+    order?: string
+    offset: number
+    limit: number
+}
+
 export type LinkData = {
     readonly link: string
 }

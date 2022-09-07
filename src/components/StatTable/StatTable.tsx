@@ -1,7 +1,7 @@
 import { useMemo } from "react"
-import { API_URL } from "../../http"
 import { LinkResponse } from "../../models/models"
-import { Cell, ColumnHead, Link, Table } from "./StatTableStyle"
+import ClickableLink from "../ClickableLink/ClickableLink"
+import { Cell, ColumnHead, Row, Table } from "./StatTableStyle"
 
 type props = {
     links: LinkResponse[]
@@ -10,35 +10,34 @@ type props = {
 const StatTable = ({ links }: props) => {
     const linksInfo = useMemo(() => {
         const result = links.map((link, index) => (
-            <>
-                <Cell key={index}>
-                    <Link href={`${API_URL}/s/${link.short}`}> 
-                        {`${API_URL}/s/${link.short}`} 
-                    </Link>
+            <Row key={index}>
+                <Cell>
+                    <ClickableLink link={link.short} short/>
+
                 </Cell>
-                <Cell key={index}> 
-                    <Link href={link.target}>
-                        {link.target}
-                    </Link>
+                <Cell> 
+                    <ClickableLink link={link.target}/>
                 </Cell>
-                <Cell key={index} align='center'>
+                <Cell align='center'>
                     {link.counter}
                 </Cell>
-            </>
+            </Row>
         ))
         return result
     }, [links])
     return (
-        <Table> 
-            <ColumnHead>
-                Сокращенная ссылка
-            </ColumnHead>
-            <ColumnHead>
-                Исходная ссылка
-            </ColumnHead>
-            <ColumnHead>
-                Переходов
-            </ColumnHead>
+        <Table>
+            <Row>
+                <ColumnHead>
+                    Сокращенная ссылка
+                </ColumnHead>
+                <ColumnHead>
+                    Исходная ссылка
+                </ColumnHead>
+                <ColumnHead>
+                    Переходов
+                </ColumnHead>
+            </Row>
             {linksInfo}
         </Table>
     )

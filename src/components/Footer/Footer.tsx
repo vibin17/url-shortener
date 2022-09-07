@@ -3,7 +3,7 @@ import { StyledFooter } from "./FooterStyle"
 const Footer = () => {
     return (
         <StyledFooter>
-            Footer
+            2022
         </StyledFooter>
     )
 }

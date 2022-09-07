@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { API } from "../http";
-import { SignUpResponse, SignInResponse, UserData, LinkData, LinkResponse } from "../models/models";
+import { SignUpResponse, SignInResponse, UserData, LinkData, LinkResponse, StatisticsParams } from "../models/models";
 
 export default class ApiService {
     static SignIn = async (signInData: UserData): Promise<AxiosResponse<SignInResponse>> => {
@@ -29,12 +29,8 @@ export default class ApiService {
         return response
     }
 
-    static Statistics = async (): Promise<AxiosResponse<LinkResponse[]>> => {
-        const response: AxiosResponse<LinkResponse[]> = await API.get('/statistics', {
-            params: {
-                offset: 2
-            }
-        })
+    static GetStatistics = async (params: StatisticsParams): Promise<AxiosResponse<LinkResponse[]>> => {
+        const response: AxiosResponse<LinkResponse[]> = await API.get('/statistics', { params })
         return response
     }
 }
