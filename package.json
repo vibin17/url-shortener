@@ -1,6 +1,7 @@
 {
   "name": "url-shortener",
   "version": "0.1.0",
+  "homepage": "https://vibin17.github.io/url-shortener",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -13,6 +14,7 @@
     "@types/styled-components": "^5.1.26",
     "axios": "^0.27.2",
     "formik": "^2.2.9",
+    "gh-pages": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
@@ -24,6 +26,8 @@
     "yup": "^0.32.11"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
